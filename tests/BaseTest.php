@@ -1,9 +1,12 @@
 <?php
+
+use pf\session\Session;
+
 /**
  * Created by PhpStorm.
  * User: 运营部
  * Date: 2019/2/13
- * Time: 16:41
+ * Time: 17:52
  *
  *
  *                      _ooOoo_
@@ -29,31 +32,11 @@
  *
  */
 
-namespace pf\session;
-
-use pf\config\Config;
-
-class Session
+class BaseTest extends \PHPUnit\Framework\TestCase
 {
-    protected static $link;
-
-    public static function single()
+    public function test_set_and_get()
     {
-        if (is_null(self::$link)) {
-            $driver = ucfirst(Config::get('session.driver'));
-            $class = '\pf\session\\build\\' . $driver . 'Handler';
-            self::$link = new $class();
-        }
-        return self::$link;
-    }
-
-    public function __call($method, $params)
-    {
-        return call_user_func_array([self::single(), $method], $params);
-    }
-
-    public static function __callStatic($name, $arguments)
-    {
-        return call_user_func_array([static::single(), $name], $arguments);
+        Session::set('name', 'houdunwang');
+        $this->assertEquals('houdunwang', Session::get('name'));
     }
 }

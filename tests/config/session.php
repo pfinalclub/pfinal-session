@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: 运营部
  * Date: 2019/2/13
- * Time: 16:41
+ * Time: 17:56
  *
  *
  *                      _ooOoo_
@@ -28,32 +28,6 @@
  *           佛祖保佑       永无BUG     永不修改
  *
  */
-
-namespace pf\session;
-
-use pf\config\Config;
-
-class Session
-{
-    protected static $link;
-
-    public static function single()
-    {
-        if (is_null(self::$link)) {
-            $driver = ucfirst(Config::get('session.driver'));
-            $class = '\pf\session\\build\\' . $driver . 'Handler';
-            self::$link = new $class();
-        }
-        return self::$link;
-    }
-
-    public function __call($method, $params)
-    {
-        return call_user_func_array([self::single(), $method], $params);
-    }
-
-    public static function __callStatic($name, $arguments)
-    {
-        return call_user_func_array([static::single(), $name], $arguments);
-    }
-}
+return [
+    'driver' => 'file'
+];
