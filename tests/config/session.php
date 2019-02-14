@@ -29,5 +29,10 @@
  *
  */
 return [
-    'driver' => 'file'
+    'driver' => 'file',
+    'file' => [
+        'path' => 'storage/session',
+    ],
+    'expire' => 0,
+    'name'     => 'pfinal',
 ];

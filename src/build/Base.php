@@ -46,6 +46,13 @@ trait Base
         $this->session_name = Config::get('session.name');
         $this->expire = intval(Config::get('session.expire'));
         $this->session_id = $this->getSessionId();
+        $this->connect();
+        $content = $this->read() ?: [];
+        $this->items = is_array($content) ? $content : [];
+        if (is_null(self::$startTime)) {
+            self::$startTime = microtime(true);
+        }
+        return $this;
     }
 
     final protected function getSessionId()
@@ -88,11 +95,22 @@ trait Base
         return $tmp;
     }
 
-    
-
     public function has($name)
     {
         return isset($this->items[$name]);
+    }
+
+    public function del($name)
+    {
+        $arr = explode('.', trim($name, '.'));
+        if (count($arr) > 0) {
+            foreach ((array)$arr as $d) {
+                if (isset($this->items[$name])) {
+                    unset($this->items[$name]);
+                }
+            }
+        }
+        return true;
     }
 
     public function flush()
@@ -104,5 +122,12 @@ trait Base
     public function all()
     {
         return $this->items;
+    }
+
+    public function flash($name = null, $value = '[get]')
+    {
+        foreach ($name as $name => $value) {
+            $this->set('_FLASH_.'.$name, [$value, self::$startTime]);
+        }
     }
 }
