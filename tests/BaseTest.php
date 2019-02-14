@@ -1,5 +1,6 @@
 <?php
 
+use pf\config\Config;
 use pf\session\Session;
 
 /**
@@ -31,12 +32,18 @@ use pf\session\Session;
  *           佛祖保佑       永无BUG     永不修改
  *
  */
-
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
     public function test_set_and_get()
     {
-        Session::set('name', 'houdunwang');
-        $this->assertEquals('houdunwang', Session::get('name'));
+        Config::loadFiles(__DIR__ . '/config');
+        $this->assertTrue(Session::set('name', 'pfinal'));
+        $this->assertInternalType('string', Session::get('name'));
+        $this->assertEquals('pfinal', Session::get('name'));
+    }
+
+    public function testAll()
+    {
+        $this->assertInternalType('array',Session::all());
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: 运营部
- * Date: 2019/2/13
- * Time: 16:41
+ * User: 南丞
+ * Date: 2019/2/14
+ * Time: 10:04
  *
  *
  *                      _ooOoo_
@@ -29,34 +29,35 @@
  *
  */
 
-namespace pf\session;
+namespace pf\session\build;
 
 use pf\config\Config;
 
-class Session
+class FileHandler implements BasicsSession
 {
-    protected static $link;
+    use Base;
+    protected $dir;
+    protected $file;
 
-    public static function single()
+    public function connect()
     {
-        if (is_null(self::$link)) {
-            $driver = ucfirst(Config::get('session.driver'));
-            $class = '\pf\session\\build\\' . $driver . 'Handler';
-            if (!$driver || !class_exists($class)) {
-                die("This driver does not support\n");
-            }
-            self::$link = new $class();
-        }
-        return self::$link;
+        $dir = Config::get('session.file.path');
+        var_dump($dir);
+        exit;
     }
 
-    public function __call($method, $params)
+    public function read()
     {
-        return call_user_func_array([self::single(), $method], $params);
+        // TODO: Implement read() method.
     }
 
-    public static function __callStatic($name, $arguments)
+    public function gc()
     {
-        return call_user_func_array([static::single(), $name], $arguments);
+        // TODO: Implement gc() method.
+    }
+
+    public function flush()
+    {
+        // TODO: Implement flush() method.
     }
 }
