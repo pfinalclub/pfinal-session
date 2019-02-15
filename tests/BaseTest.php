@@ -45,7 +45,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
     public function testAll()
     {
         Config::loadFiles(__DIR__ . '/config');
-        Session::bootstrap();
-        $this->assertInternalType('array',Session::all());
+        Session::bootstrap()->set('name', 'pfinal');
+        Session::write();
+        $this->assertInternalType('array', Session::all());
     }
 }
