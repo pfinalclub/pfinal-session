@@ -1,5 +1,6 @@
 {
   "name": "nancheng/pfinal-session",
+  "description": "PFinal Session组件",
   "authors": [
     {
       "name": "南丞",
@@ -18,7 +19,6 @@
     "pfinal-session"
   ],
   "require": {
-    "php": ">=5.4.0",
     "nancheng/pfinal-config": "dev-master"
 
   },
